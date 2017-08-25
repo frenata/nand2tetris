@@ -42,5 +42,29 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+		// process x
+		Mux16	(a=x, b=false, sel=zx, out=xZero); 
+		Not16	(in=xZero, out=xNeg);
+		Mux16	(a=xZero, b=xNeg, sel=nx, out=xOut);
+
+		// process y
+		Mux16	(a=y, b=false, sel=zy, out=yZero);
+		Not16	(in=yZero, out=yNeg);
+		Mux16	(a=yZero, b=yNeg, sel=ny, out=yOut);
+
+		// calculate Add or And operation and negate
+		Add16	(a=xOut, b=yOut, out=fAdd);
+		And16	(a=xOut, b=yOut, out=fAnd);
+		Mux16	(a=fAnd, b=fAdd, sel=f, out=fRes);
+		Not16	(in=fRes, out=fNeg);
+
+		// Send output and set control bits
+		Mux16	(a=fRes, b=fNeg, sel=no, 
+				out[0..15]=fOut,
+				out[15]=ng, 
+				out=out);
+
+		// check if output is zero, using custom chip
+		Or16Way	(in=fOut, out=allBits);
+		Not		(in=allBits, out=zr);
 }

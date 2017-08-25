@@ -13,5 +13,69 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-   // Put you code here:
+	// for each bit: and with the continue bit, negate and mux
+
+	And (a=in[0], b=true, out=cont1);
+	Not (in=in[0], out=neg0);
+	Mux (a=in[0], b=neg0, sel=true, out=out[0]);
+
+	And (a= in[1], b=cont1, out=cont2);
+	Not (in=in[1], out=neg1);
+	Mux (a= in[1], b=neg1, sel=cont1, out=out[1]);
+
+	And (a= in[2], b=cont2, out=cont3);
+	Not (in=in[2], out=neg2);
+	Mux (a= in[2], b=neg2, sel=cont2, out=out[2]);
+
+	And (a= in[3], b=cont3, out=cont4);
+	Not (in=in[3], out=neg3);
+	Mux (a= in[3], b=neg3, sel=cont3, out=out[3]);
+
+	And (a= in[4], b=cont4, out=cont5);
+	Not (in=in[4], out=neg4);
+	Mux (a= in[4], b=neg4, sel=cont4, out=out[4]);
+
+	And (a= in[5], b=cont5, out=cont6);
+	Not (in=in[5], out=neg5);
+	Mux (a= in[5], b=neg5, sel=cont5, out=out[5]);
+
+	And (a= in[6], b=cont6, out=cont7);
+	Not (in=in[6], out=neg6);
+	Mux (a= in[6], b=neg6, sel=cont6, out=out[6]);
+
+	And (a= in[7], b=cont7, out=cont8);
+	Not (in=in[7], out=neg7);
+	Mux (a= in[7], b=neg7, sel=cont7, out=out[7]);
+
+	And (a= in[8], b=cont8, out=cont9);
+	Not (in=in[8], out=neg8);
+	Mux (a= in[8], b=neg8, sel=cont8, out=out[8]);
+
+	And (a= in[9], b=cont9, out=cont10);
+	Not (in=in[9], out=neg9);
+	Mux (a= in[9], b=neg9, sel=cont9, out=out[9]);
+
+	And (a= in[10], b=cont10, out=cont11);
+	Not (in=in[10], out=neg10);
+	Mux (a= in[10], b=neg10, sel=cont10, out=out[10]);
+
+	And (a= in[11], b=cont11, out=cont12);
+	Not (in=in[11], out=neg11);
+	Mux (a= in[11], b=neg11, sel=cont11, out=out[11]);
+
+	And (a= in[12], b=cont12, out=cont13);
+	Not (in=in[12], out=neg12);
+	Mux (a= in[12], b=neg12, sel=cont12, out=out[12]);
+
+	And (a= in[13], b=cont13, out=cont14);
+	Not (in=in[13], out=neg13);
+	Mux (a= in[13], b=neg13, sel=cont13, out=out[13]);
+
+	And (a= in[14], b=cont14, out=cont15);
+	Not (in=in[14], out=neg14);
+	Mux (a= in[14], b=neg14, sel=cont14, out=out[14]);
+
+	And (a= in[15], b=cont15, out=cont16);
+	Not (in=in[15], out=neg15);
+	Mux (a= in[15], b=neg15, sel=cont15, out=out[15]);
 }
