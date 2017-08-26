@@ -16,5 +16,25 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+	// load the right bit if Reset is signaled
+	// or if Increment is signaled but not Load
+	Not			(in=load,					out=noLoad);
+	And			(a=inc,			b=noLoad,	out=incNoLoad);
+	Or			(a=reset,		b=incNoLoad,out=lsb);
+
+	// load the left bit if Load or Increment is signaled
+	// and Reset is not signaled
+	Not			(in=reset,					out=noReset);
+	Or			(a=load,		b=inc,		out=loadOrInc);
+	And			(a=loadOrInc,	b=noReset,	out=msb);
+	
+	Inc16		(in=oldState, out=incState);
+
+	// given control bits, select the correct value to load
+	Mux4Way16	(out=newState,
+				sel[0]=lsb, sel[1]=msb,
+				a=oldState, b=false, c=in, d=incState);
+
+	// always load the muxed value
+	Register	(in=newState, out=out, out=oldState, load=true);
 }
