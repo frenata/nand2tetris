@@ -27,5 +27,19 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+	// select the memory module to activate
+	DMux4Way	(in=true, sel=address[13..14],
+				a=mainA, b=mainB, c=screen, d=keyboard);
+
+	// only load the main memory if a valid address is given *and* load bit is set
+	Or			(a=mainA, b=mainB, out=main);
+	And			(a=main, b=load, out=loadMain);
+	
+	RAM16K		(in=in, load=loadMain, address=address[0..13], out=mainOut);
+	Screen		(in=in, load=screen, address=address[0..12], out=screenOut);
+	Keyboard	(out=keyboardOut);
+
+	// select the correct signal to output
+	Mux4Way16	(a=mainOut, b=mainOut, c=screenOut, d=keyboardOut,
+				sel=address[13..14], out=out);
 }
