@@ -8,17 +8,19 @@ type instruction interface {
 }
 
 func parse(line string) instruction {
-	nocomments := strings.Split(line, "/")[0]
-	ins := strings.TrimSpace(nocomments)
+	// strip all whitespace and comments
+	line = strings.Replace(line, " ", "", -1)
+	line = strings.Replace(line, "\t", "", -1)
+	line = strings.Split(line, "/")[0]
 
 	switch {
-	case ins == "": // just whitespace
+	case line == "": // just whitespace
 		return nil
-	case strings.HasPrefix(ins, "("): // label
+	case strings.HasPrefix(line, "("): // label
 		return nil // TODO
-	case strings.HasPrefix(ins, "@"):
-		return NewAInstruction(ins)
+	case strings.HasPrefix(line, "@"):
+		return NewAInstruction(line)
 	default: // C instruction
-		return NewCInstruction(ins)
+		return NewCInstruction(line)
 	}
 }

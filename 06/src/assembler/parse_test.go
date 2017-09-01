@@ -26,7 +26,7 @@ func TestParseCInstruction(t *testing.T) {
 }
 
 func TestWhitespace(t *testing.T) {
-	input := "  // test comment"
+	input := "	   // test comment"
 	actual := parse(input)
 
 	if actual != nil {
