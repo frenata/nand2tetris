@@ -11,7 +11,10 @@ func TestAssemble(t *testing.T) {
 		"../../tests/add/Add.asm":    "../../tests/add/Add.cmp",
 		"../../tests/max/MaxL.asm":   "../../tests/max/MaxL.cmp",
 		"../../tests/rect/RectL.asm": "../../tests/rect/RectL.cmp",
-		//"../../tests/pong/PongL.asm": "../../tests/pong/PongL.cmp",
+		"../../tests/pong/PongL.asm": "../../tests/pong/PongL.cmp",
+		"../../tests/max/Max.asm":    "../../tests/max/Max.cmp",
+		"../../tests/rect/Rect.asm":  "../../tests/rect/Rect.cmp",
+		"../../tests/pong/Pong.asm":  "../../tests/pong/Pong.cmp",
 	}
 
 	for asmFile, cmpFile := range testFiles {

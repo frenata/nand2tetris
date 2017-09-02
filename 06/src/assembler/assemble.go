@@ -8,6 +8,9 @@ import (
 // Assemble takes as input a string representing a program written in Hack
 // and outputs a string representing the machine code for the Hack computer.
 func Assemble(program string) string {
+	// first stage the program to eliminate symbols
+	program = Stage(program)
+
 	lines := strings.Split(program, "\n")
 	output := ""
 
