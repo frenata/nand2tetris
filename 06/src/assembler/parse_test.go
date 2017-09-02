@@ -36,9 +36,10 @@ func TestWhitespace(t *testing.T) {
 
 func TestLabels(t *testing.T) {
 	input := "(LOOP) // comment"
-	actual := parse(input)
+	actual := parse(input).String()
+	expected := "LOOP"
 
-	if actual != nil {
-		t.Fatalf("%s failed to parse: instead %s\n", input, actual)
+	if actual != expected {
+		t.Fatalf("%s failed to parse as %s: instead %s\n", input, expected, actual)
 	}
 }

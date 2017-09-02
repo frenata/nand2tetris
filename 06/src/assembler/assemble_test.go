@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-var testFiles map[string]string = map[string]string{
-	"../../tests/add/Add.asm":    "../../tests/add/Add.cmp",
-	"../../tests/max/MaxL.asm":   "../../tests/max/MaxL.cmp",
-	"../../tests/rect/RectL.asm": "../../tests/rect/RectL.cmp",
-	"../../tests/pong/PongL.asm": "../../tests/pong/PongL.cmp",
-}
-
 func TestAssemble(t *testing.T) {
+	var testFiles map[string]string = map[string]string{
+		"../../tests/add/Add.asm":    "../../tests/add/Add.cmp",
+		"../../tests/max/MaxL.asm":   "../../tests/max/MaxL.cmp",
+		"../../tests/rect/RectL.asm": "../../tests/rect/RectL.cmp",
+		//"../../tests/pong/PongL.asm": "../../tests/pong/PongL.cmp",
+	}
+
 	for asmFile, cmpFile := range testFiles {
 		input, err := ioutil.ReadFile(asmFile)
 		if err != nil {

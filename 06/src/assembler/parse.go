@@ -18,7 +18,7 @@ func parse(line string) instruction {
 	case line == "": // just whitespace
 		return nil
 	case strings.HasPrefix(line, "("): // label
-		return nil // TODO
+		return NewLabel(line)
 	case strings.HasPrefix(line, "@"):
 		return NewAInstruction(line)
 	default: // C instruction
