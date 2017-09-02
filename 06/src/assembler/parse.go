@@ -12,6 +12,7 @@ func parse(line string) instruction {
 	line = strings.Replace(line, " ", "", -1)
 	line = strings.Replace(line, "\t", "", -1)
 	line = strings.Split(line, "/")[0]
+	line = strings.TrimSpace(line)
 
 	switch {
 	case line == "": // just whitespace
