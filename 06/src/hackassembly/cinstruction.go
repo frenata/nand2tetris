@@ -1,4 +1,4 @@
-package assembler
+package hackassembly
 
 import "strings"
 

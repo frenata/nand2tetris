@@ -1,7 +1,7 @@
-package assembler_test
+package hackassembly_test
 
 import (
-	"assembler"
+	"hackassembly"
 	"io/ioutil"
 	"testing"
 )
@@ -26,7 +26,7 @@ func TestAssemble(t *testing.T) {
 		if err != nil {
 			panic(err)
 		}
-		actual := assembler.Assemble(string(input))
+		actual := hackassembly.Assemble(string(input))
 
 		if actual != string(expected) {
 			t.Logf("Actual:\n%s", actual)

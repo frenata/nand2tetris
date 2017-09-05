@@ -1,7 +1,7 @@
 package main
 
 import (
-	"assembler"
+	"hackassembly"
 	"io/ioutil"
 	"log"
 	"os"
@@ -22,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	output := assembler.Assemble(string(file))
+	output := hackassembly.Assemble(string(file))
 	binary, err := os.Create(name + ".hack")
 	if err != nil {
 		panic(err)

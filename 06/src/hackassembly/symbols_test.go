@@ -1,8 +1,8 @@
-package assembler_test
+package hackassembly_test
 
 import (
-	"assembler"
 	"bytes"
+	"hackassembly"
 	"io/ioutil"
 	"testing"
 )
@@ -24,7 +24,7 @@ func TestStage(t *testing.T) {
 			panic(err)
 		}
 		expected = bytes.SplitN(expected, []byte{'\n'}, 8)[7]
-		actual := assembler.Stage(string(input))
+		actual := hackassembly.Stage(string(input))
 
 		if actual != string(expected) {
 			t.Logf("Actual:\n%s", actual)
