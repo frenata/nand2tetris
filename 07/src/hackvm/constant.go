@@ -28,6 +28,9 @@ func NewConstant(line string) (vmInstruction, error) {
 func (c constant) Source() string { return c.src }
 func (c constant) Output() string {
 	return fmt.Sprintf(
-		"// %s\n@%d\nD=A\n@SP\nM=D\n@SP\nA=A+1",
+		"// %s\n"+
+			"@%d\nD=A\n"+
+			"@SP\nA=M\nM=D\n"+
+			"@SP\nM=M+1",
 		c.src, c.n)
 }

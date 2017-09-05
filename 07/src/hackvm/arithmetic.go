@@ -16,7 +16,7 @@ func NewOperation(line string) (vmInstruction, error) {
 	case "add":
 		return add{operation{line}}, nil
 	default:
-		return nil, errors.New("unrecognized operation")
+		return nil, errors.New("unrecognized operation: " + line)
 	}
 	//return operation{line}, nil
 }
@@ -27,6 +27,11 @@ type add struct {
 
 func (o add) Output() string {
 	return fmt.Sprintf(
-		"// %s\n@SP\nA=A-1\nD=M\nA=A-1\nM=M+D\nA=A+1",
+		"// %s\n"+
+			"@SP\nA=M\n"+
+			"A=A-1\nD=M\n"+
+			"A=A-1\nM=M+D\n"+
+			"A=A+1\nD=A\n"+
+			"@SP\nM=D",
 		o.src)
 }

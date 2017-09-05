@@ -17,7 +17,7 @@ func parse(line string) (vmInstruction, error) {
 	case strings.Contains(line, "constant"):
 		return NewConstant(line)
 		// if single word return operation
-	case !strings.Contains(line, " "):
+	case len(line) > 0 && !strings.Contains(line, " "):
 		return NewOperation(line)
 	// if push/pop return virtual memory access
 	// else whitespace or comment return nil
