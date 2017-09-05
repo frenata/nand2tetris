@@ -6,7 +6,11 @@ import (
 	"testing"
 )
 
-func TestAssemble(t *testing.T) {
+func TestSimpleTranslate(t *testing.T) {
+	t.Log(hackvm.Translate("eq"))
+}
+
+func TestTranslate(t *testing.T) {
 	var testFiles map[string]string = map[string]string{
 		"../../tests/StackArithmetic/SimpleAdd/SimpleAdd.vm": "../../tests/StackArithmetic/SimpleAdd/SimpleAdd.asm",
 	}
