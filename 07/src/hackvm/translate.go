@@ -28,6 +28,8 @@ func Translate(vmCode string) string {
 func bootstrap() string {
 	return "@START\n0;JMP\n" +
 		eqFunction +
+		ltFunction +
+		gtFunction +
 		"(START)\n"
 }
 
@@ -40,4 +42,28 @@ const eqFunction string = "($EQ)\n" +
 	"@$EQ_END\nD;JEQ\n" +
 	"D=-1\n" +
 	"($EQ_END)\n@SP\nA=M-1\nM=!D\n" + // push to stack
+	"@R15\nA=M\n0;JMP\n" // return
+
+// pops top 2 args and checks less than
+// pushes true: -1 or false: 0 to stack
+// returns to addr stored in D
+const ltFunction string = "($LT)\n" +
+	"@R15\nM=D\n" + // save return addr
+	"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n" + // calculate arg2-arg1
+	"@$LT_TRUE\nD;JLT\n" +
+	"D=0\n@$LT_END\n0;JMP\n" +
+	"($LT_TRUE)\nD=-1\n" +
+	"($LT_END)\n@SP\nA=M-1\nM=D\n" + // push to stack
+	"@R15\nA=M\n0;JMP\n" // return
+
+// pops top 2 args and checks greater than
+// pushes true: -1 or false: 0 to stack
+// returns to addr stored in D
+const gtFunction string = "($GT)\n" +
+	"@R15\nM=D\n" + // save return addr
+	"@SP\nAM=M-1\nD=M\nA=A-1\nD=M-D\n" + // calculate arg2-arg1
+	"@$GT_TRUE\nD;JGT\n" +
+	"D=0\n@$GT_END\n0;JMP\n" +
+	"($GT_TRUE)\nD=-1\n" +
+	"($GT_END)\n@SP\nA=M-1\nM=D\n" + // push to stack
 	"@R15\nA=M\n0;JMP\n" // return
