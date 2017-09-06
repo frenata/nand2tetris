@@ -15,6 +15,12 @@ func main() {
 		log.Fatal("No file specified")
 	}
 	filename := args[1]
+
+	stage := false
+	if len(args) > 2 {
+		stage = true
+	}
+
 	ext := filepath.Ext(filename)
 	name := strings.TrimSuffix(filename, ext)
 	file, err := ioutil.ReadFile(filename)
@@ -23,6 +29,9 @@ func main() {
 	}
 
 	output := hackassembly.Assemble(string(file))
+	if stage {
+		output = hackassembly.Stage(string(file))
+	}
 	binary, err := os.Create(name + ".hack")
 	if err != nil {
 		panic(err)
