@@ -21,6 +21,7 @@ var segments map[string]string = map[string]string{
 	"that":     "THAT",
 	"temp":     "5",
 	"static":   "static",
+	"pointer":  "pointer",
 }
 
 func NewMemoryAccess(line string) (vmInstruction, error) {
@@ -34,11 +35,16 @@ func NewMemoryAccess(line string) (vmInstruction, error) {
 	index, err := strconv.Atoi(tokens[2])
 	if err != nil {
 		return nil, err
+	} else if index < 0 {
+		return nil, errors.New("index must be non-negative")
 	}
 
 	segment, ok := segments[tokens[1]]
 	if !ok {
 		return nil, errors.New("segment not recognized")
+	}
+	if segment == "pointer" && index > 1 {
+		return nil, errors.New("pointer segment only recognizes 0 or 1")
 	}
 
 	push := false
@@ -63,6 +69,12 @@ func (m memoryAccess) Output() string {
 			return m.pushStatic()
 		} else {
 			return m.popStatic()
+		}
+	case m.segment == "pointer":
+		if m.push {
+			return m.pushPointer()
+		} else {
+			return m.popPointer()
 		}
 	default: // heap
 		if m.push {
@@ -120,4 +132,29 @@ func (m memoryAccess) popStatic() string {
 		"@SP\nAM=M-1\nD=M\n"+ // pop to D
 		"@%s.%d\nM=D",
 		m.src, name, m.index)
+}
+
+func (m memoryAccess) pushPointer() string {
+	pointer := "THIS"
+	if m.index == 1 {
+		pointer = "THAT"
+	}
+
+	return fmt.Sprintf("// %s\n"+
+		"@%s\nD=M\n"+ // access memory location and save to D
+		"@SP\nA=M\nM=D\n"+ // push to stack
+		"@SP\nM=M+1", // increment stack
+		m.src, pointer)
+}
+
+func (m memoryAccess) popPointer() string {
+	pointer := "THIS"
+	if m.index == 1 {
+		pointer = "THAT"
+	}
+
+	return fmt.Sprintf("// %s\n"+
+		"@SP\nAM=M-1\nD=M\n"+ // pop to D
+		"@%s\nM=D",
+		m.src, pointer)
 }
