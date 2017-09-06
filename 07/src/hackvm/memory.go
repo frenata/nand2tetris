@@ -20,6 +20,7 @@ var segments map[string]string = map[string]string{
 	"this":     "THIS",
 	"that":     "THAT",
 	"temp":     "5",
+	"static":   "static",
 }
 
 func NewMemoryAccess(line string) (vmInstruction, error) {
@@ -50,14 +51,23 @@ func NewMemoryAccess(line string) (vmInstruction, error) {
 
 func (m memoryAccess) Source() string { return m.src }
 func (m memoryAccess) Output() string {
-	if m.push {
-		return m.pushOutput()
-	} else {
-		return m.popOutput()
+	switch {
+	case m.segment == "5": // temp
+		if m.push {
+			return m.pushTemp()
+		} else {
+			return m.popTemp()
+		}
+	default: // heap
+		if m.push {
+			return m.pushHeap()
+		} else {
+			return m.popHeap()
+		}
 	}
 }
 
-func (m memoryAccess) pushOutput() string {
+func (m memoryAccess) pushHeap() string {
 	return fmt.Sprintf("// %s\n"+
 		"@%d\nD=A\n"+ // save index
 		"@%s\nA=M+D\nD=M\n"+ // access memory location and save to D
@@ -66,10 +76,27 @@ func (m memoryAccess) pushOutput() string {
 		m.src, m.index, m.segment)
 }
 
-func (m memoryAccess) popOutput() string {
+func (m memoryAccess) popHeap() string {
 	return fmt.Sprintf("// %s\n"+
 		"@%d\nD=A\n"+ // save index
 		"@%s\nD=M+D\n@R13\nM=D\n"+ // save memory address to R13
+		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", // pop to R13 address
+		m.src, m.index, m.segment)
+}
+
+func (m memoryAccess) pushTemp() string {
+	return fmt.Sprintf("// %s\n"+
+		"@%d\nD=A\n"+ // save index
+		"@%s\nA=A+D\nD=M\n"+ // access memory location and save to D
+		"@SP\nA=M\nM=D\n"+ // push to stack
+		"@SP\nA=A+1\n", // increment stack
+		m.src, m.index, m.segment)
+}
+
+func (m memoryAccess) popTemp() string {
+	return fmt.Sprintf("// %s\n"+
+		"@%d\nD=A\n"+ // save index
+		"@%s\nD=A+D\n@R13\nM=D\n"+ // save memory address to R13
 		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", // pop to R13 address
 		m.src, m.index, m.segment)
 }
