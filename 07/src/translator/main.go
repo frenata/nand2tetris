@@ -16,14 +16,16 @@ func main() {
 	}
 	filename := args[1]
 	ext := filepath.Ext(filename)
-	name := strings.TrimSuffix(filename, ext)
-	file, err := ioutil.ReadFile(filename)
+	filename = strings.TrimSuffix(filename, ext)
+	dir, name := filepath.Split(filename)
+
+	file, err := ioutil.ReadFile(filename + ext)
 	if err != nil {
 		panic(err)
 	}
 
 	output := hackvm.Translate(string(file), name)
-	binary, err := os.Create(name + ".asm")
+	binary, err := os.Create(dir + name + ".asm")
 	if err != nil {
 		panic(err)
 	}

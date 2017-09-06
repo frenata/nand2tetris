@@ -227,7 +227,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // push that 5
 @5
@@ -239,7 +239,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // add
 @SP
@@ -258,7 +258,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // sub
 @SP
@@ -277,7 +277,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // push this 6
 @6
@@ -289,7 +289,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // add
 @SP
@@ -315,7 +315,7 @@ D=M
 A=M
 M=D
 @SP
-A=A+1
+M=M+1
 
 // add
 @SP

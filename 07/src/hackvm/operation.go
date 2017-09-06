@@ -43,38 +43,38 @@ func init() {
 func add() string {
 	return "// add\n" +
 		"@SP\nAM=M-1\n" +
-		"D=M\nA=A-1\nM=M+D\n"
+		"D=M\nA=A-1\nM=M+D"
 }
 
 func sub() string {
 	return "// sub\n" +
 		"@SP\nAM=M-1\n" +
-		"D=M\nA=A-1\nM=M-D\n"
+		"D=M\nA=A-1\nM=M-D"
 }
 
 func and() string {
 	return "// and\n" +
 		"@SP\nAM=M-1\n" +
-		"D=M\nA=A-1\nM=M&D\n"
+		"D=M\nA=A-1\nM=M&D"
 }
 
 func or() string {
 	return "// or\n" +
 		"@SP\nAM=M-1\n" +
-		"D=M\nA=A-1\nM=M|D\n"
+		"D=M\nA=A-1\nM=M|D"
 }
 
 // unary operations
 func neg() string {
 	return "// neg\n" +
 		"@SP\nA=M-1\n" +
-		"M=-M\n"
+		"M=-M"
 }
 
 func not() string {
 	return "// bitwise not\n" +
 		"@SP\nA=M-1\n" +
-		"M=!M\n"
+		"M=!M"
 }
 
 // comparison operations

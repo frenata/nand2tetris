@@ -78,7 +78,7 @@ func (m memoryAccess) pushHeap() string {
 		"@%d\nD=A\n"+ // save index
 		"@%s\nA=M+D\nD=M\n"+ // access memory location and save to D
 		"@SP\nA=M\nM=D\n"+ // push to stack
-		"@SP\nM=M+1\n", // increment stack
+		"@SP\nM=M+1", // increment stack
 		m.src, m.index, m.segment)
 }
 
@@ -86,7 +86,7 @@ func (m memoryAccess) popHeap() string {
 	return fmt.Sprintf("// %s\n"+
 		"@%d\nD=A\n"+ // save index
 		"@%s\nD=M+D\n@R13\nM=D\n"+ // save memory address to R13
-		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", // pop to R13 address
+		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D", // pop to R13 address
 		m.src, m.index, m.segment)
 }
 
@@ -95,7 +95,7 @@ func (m memoryAccess) pushTemp() string {
 		"@%d\nD=A\n"+ // save index
 		"@%s\nA=A+D\nD=M\n"+ // access memory location and save to D
 		"@SP\nA=M\nM=D\n"+ // push to stack
-		"@SP\nM=M+1\n", // increment stack
+		"@SP\nM=M+1", // increment stack
 		m.src, m.index, m.segment)
 }
 
@@ -103,7 +103,7 @@ func (m memoryAccess) popTemp() string {
 	return fmt.Sprintf("// %s\n"+
 		"@%d\nD=A\n"+ // save index
 		"@%s\nD=A+D\n@R13\nM=D\n"+ // save memory address to R13
-		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", // pop to R13 address
+		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D", // pop to R13 address
 		m.src, m.index, m.segment)
 }
 
@@ -111,13 +111,13 @@ func (m memoryAccess) pushStatic() string {
 	return fmt.Sprintf("// %s\n"+
 		"@%s.%d\nD=M\n"+ // access memory location and save to D
 		"@SP\nA=M\nM=D\n"+ // push to stack
-		"@SP\nM=M+1\n", // increment stack
+		"@SP\nM=M+1", // increment stack
 		m.src, name, m.index)
 }
 
 func (m memoryAccess) popStatic() string {
 	return fmt.Sprintf("// %s\n"+
 		"@SP\nAM=M-1\nD=M\n"+ // pop to D
-		"@%s.%d\nM=D\n",
+		"@%s.%d\nM=D",
 		m.src, name, m.index)
 }
