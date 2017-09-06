@@ -6,7 +6,10 @@ import (
 	"strings"
 )
 
-func Translate(vmCode string) string {
+var name string = "NO_NAME"
+
+func Translate(vmCode string, fileName string) string {
+	name = fileName
 	asmCode := bootstrap()
 	lines := strings.Split(vmCode, "\n")
 

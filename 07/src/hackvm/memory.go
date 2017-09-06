@@ -58,6 +58,12 @@ func (m memoryAccess) Output() string {
 		} else {
 			return m.popTemp()
 		}
+	case m.segment == "static":
+		if m.push {
+			return m.pushStatic()
+		} else {
+			return m.popStatic()
+		}
 	default: // heap
 		if m.push {
 			return m.pushHeap()
@@ -99,4 +105,19 @@ func (m memoryAccess) popTemp() string {
 		"@%s\nD=A+D\n@R13\nM=D\n"+ // save memory address to R13
 		"@SP\nAM=M-1\nD=M\n@R13\nA=M\nM=D\n", // pop to R13 address
 		m.src, m.index, m.segment)
+}
+
+func (m memoryAccess) pushStatic() string {
+	return fmt.Sprintf("// %s\n"+
+		"@%s.%d\nD=M\n"+ // access memory location and save to D
+		"@SP\nA=M\nM=D\n"+ // push to stack
+		"@SP\nM=M+1\n", // increment stack
+		m.src, name, m.index)
+}
+
+func (m memoryAccess) popStatic() string {
+	return fmt.Sprintf("// %s\n"+
+		"@SP\nAM=M-1\nD=M\n"+ // pop to D
+		"@%s.%d\nM=D\n",
+		m.src, name, m.index)
 }

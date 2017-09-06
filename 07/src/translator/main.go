@@ -22,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	output := hackvm.Translate(string(file))
+	output := hackvm.Translate(string(file), name)
 	binary, err := os.Create(name + ".asm")
 	if err != nil {
 		panic(err)
