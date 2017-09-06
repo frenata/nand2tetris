@@ -72,7 +72,7 @@ func (m memoryAccess) pushHeap() string {
 		"@%d\nD=A\n"+ // save index
 		"@%s\nA=M+D\nD=M\n"+ // access memory location and save to D
 		"@SP\nA=M\nM=D\n"+ // push to stack
-		"@SP\nA=A+1\n", // increment stack
+		"@SP\nM=M+1\n", // increment stack
 		m.src, m.index, m.segment)
 }
 
@@ -89,7 +89,7 @@ func (m memoryAccess) pushTemp() string {
 		"@%d\nD=A\n"+ // save index
 		"@%s\nA=A+D\nD=M\n"+ // access memory location and save to D
 		"@SP\nA=M\nM=D\n"+ // push to stack
-		"@SP\nA=A+1\n", // increment stack
+		"@SP\nM=M+1\n", // increment stack
 		m.src, m.index, m.segment)
 }
 
