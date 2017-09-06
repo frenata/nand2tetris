@@ -2,7 +2,7 @@ package hackvm
 
 import (
 	"errors"
-	"strconv"
+	"fmt"
 )
 
 type operation struct {
@@ -41,15 +41,9 @@ func add() string {
 }
 
 func eq() string {
+	returnAddr := fmt.Sprintf("$RIP$%d", jumpAddr)
 	return "// eq\n" +
-		"@SP\nA=M\nA=A-1\nD=M\n" + // pop to D
-		"A=A-1\nD=D-M\n" + // D is zero if equal
-		"@eq-" + strconv.Itoa(jumpAddr) + "\nD;JEQ\n" +
-		"@SP\nA=M\nA=A-1\nA=A-1\nM=0\n" +
-		"@eq-" + strconv.Itoa(jumpAddr) + "-end\n0;JMP\n" +
-		"(eq-" + strconv.Itoa(jumpAddr) + ")\n" +
-		"@SP\nA=M\nA=A-1\nA=A-1\nM=-1\n" +
-		"@eq-" + strconv.Itoa(jumpAddr) + "-end\n0;JMP\n" +
-		"(eq-" + strconv.Itoa(jumpAddr) + "-end)\n" +
-		"@SP\nM=M-1\n"
+		"@" + returnAddr + "\n" +
+		"D=A\n@$EQ\n0;JMP\n" +
+		"(" + returnAddr + ")"
 }
