@@ -20,6 +20,9 @@ func parse(line string) (vmInstruction, error) {
 	case len(line) > 0 && !strings.Contains(line, " "):
 		return NewOperation(line)
 	// if push/pop return virtual memory access
+	case strings.HasPrefix(line, "push"),
+		strings.HasPrefix(line, "pop"):
+		return NewMemoryAccess(line)
 	// else whitespace or comment return nil
 	default:
 		return nil, nil
